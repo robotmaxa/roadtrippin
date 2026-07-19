@@ -1,4 +1,4 @@
-cat > README.md << 'EOF'
+
 # Roadtrip Optimizer
 
 Route optimization for multi-day road trips under driving-distance constraints.
