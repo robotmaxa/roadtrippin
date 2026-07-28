@@ -75,24 +75,33 @@
 
   (function renderRail() {
     const rail = $("#mile-rail");
-    const origin = el("div", { class: "rail-node terminus" },
-      el("span", { class: "post", "aria-hidden": "true" }),
-      el("span", { class: "mark" }, S.rail.origin),
-      el("span", { class: "park" }, "start"));
-    rail.append(origin);
-    S.rail.stops.forEach((stop) => {
-      const n = el("div", { class: "rail-node" },
+
+    /* One marker: miles left to the destination (the decreasing invariant)
+       over miles actually driven to reach it (the increasing one). */
+    function node(opts) {
+      const n = el("div", { class: "rail-node" + (opts.terminus ? " terminus" : "") },
         el("span", { class: "post", "aria-hidden": "true" }));
-      const mark = el("span", { class: "mark" }, String(stop.left));
+      const mark = el("span", { class: "mark" }, String(opts.left));
       mark.append(el("small", null, " mi left"));
-      n.append(mark, el("span", { class: "park" }, stop.name));
-      rail.append(n);
+      n.append(mark);
+      const driven = el("span", { class: "driven" }, String(opts.driven));
+      driven.append(el("small", null, " mi driven"));
+      n.append(driven);
+      n.append(el("span", { class: "park" }, opts.name));
+      return n;
+    }
+
+    rail.append(node({
+      left: S.rail.originLeft, driven: 0,
+      name: S.rail.origin + " · start", terminus: true,
+    }));
+    S.rail.stops.forEach((stop) => {
+      rail.append(node({ left: stop.left, driven: stop.driven, name: stop.name }));
     });
-    const dest = el("div", { class: "rail-node terminus" },
-      el("span", { class: "post", "aria-hidden": "true" }),
-      el("span", { class: "mark" }, "0"),
-      el("span", { class: "park" }, S.rail.destination));
-    rail.append(dest);
+    rail.append(node({
+      left: 0, driven: S.rail.destinationDriven,
+      name: S.rail.destination, terminus: true,
+    }));
     $("#rail-caption").textContent = S.rail.caption;
   })();
 
@@ -238,6 +247,38 @@
     panel.append(dataTable(S.comparison.scaling.cols, S.comparison.scaling.rows));
     panel.append(el("p", { class: "compare-note" }, S.comparison.scaling.note));
   }
+
+  /* ---------- screenshot zoom ----------
+     Figures in the essay are dense transcripts; click any one to see it full
+     size. Click anywhere, or press Escape, to close. */
+  (function lightbox() {
+    let overlay = null;
+
+    function close() {
+      if (!overlay) return;
+      overlay.remove();
+      overlay = null;
+    }
+
+    function open(src, alt) {
+      close();
+      const img = el("img", { src: src, alt: alt || "" });
+      overlay = el("div", { class: "lightbox", role: "dialog", "aria-modal": "true" },
+        img, el("p", { class: "lightbox-hint" }, "click anywhere or press esc to close"));
+      overlay.addEventListener("click", close);
+      document.body.append(overlay);
+    }
+
+    document.addEventListener("click", (e) => {
+      const img = e.target.closest && e.target.closest(".shot img");
+      if (!img) return;
+      open(img.getAttribute("src"), img.getAttribute("alt"));
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+  })();
 
   /* ---------- boot ---------- */
   const fromHash = (location.hash.match(/^#\/(.+)$/) || [])[1];

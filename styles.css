@@ -132,6 +132,22 @@ a { color: var(--sign); }
   color: #cfc4b2;
   margin-left: 1px;
 }
+.rail-node .driven {
+  display: block;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(0.7rem, 1.5vw, 0.98rem);
+  line-height: 1.1;
+  margin-top: 0.12rem;
+  color: #9fbfa8;                 /* guide-sign green, the increasing axis */
+  white-space: nowrap;
+}
+.rail-node .driven small {
+  font-size: 0.62em;
+  font-weight: 600;
+  color: #7d9a86;
+  margin-left: 1px;
+}
 .rail-node .park {
   display: block;
   font-family: var(--mono);
@@ -154,7 +170,9 @@ a { color: var(--sign); }
 }
 @media (max-width: 720px) {
   .rail-node .park { display: none; }
-  .rail-node:nth-child(even) .park { display: none; }
+  /* no room for the unit labels — the caption carries them instead */
+  .rail-node .mark small,
+  .rail-node .driven small { display: none; }
 }
 
 /* ---------- tab bar: trailhead signs ---------- */
@@ -225,20 +243,35 @@ h2 .rule {
   margin-top: 0.35rem;
 }
 
-/* essay */
-.essay p { margin: 0 0 1.05rem; max-width: 46rem; }
+/* essay
+   One centred column. --measure is the reading width; figures and tables
+   break out to the full .essay width but stay centred on the same axis,
+   so nothing hangs off to one side of the page. */
+.essay {
+  --measure: 47rem;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+.essay > h2 {
+  max-width: var(--measure);
+  margin-left: auto;
+  margin-right: auto;
+}
+.essay p {
+  margin: 0 auto 1.05rem;
+  max-width: var(--measure);
+}
 .essay .lede {
   font-size: 1.28rem;
   line-height: 1.55;
   font-weight: 500;
-  max-width: 44rem;
 }
 .essay blockquote {
   border-left: 4px solid var(--sign);
   background: var(--paper-raised);
   padding: 0.9rem 1.2rem;
-  margin: 1.2rem 0 1.3rem;
-  max-width: 44rem;
+  margin: 1.2rem auto 1.3rem;
+  max-width: var(--measure);
   font-style: italic;
 }
 .essay blockquote.prompt-block {
@@ -259,8 +292,93 @@ h2 .rule {
   padding: 1rem 1.2rem;
   border-radius: 8px;
   overflow-x: auto;
-  margin: 1.2rem 0 1.4rem;
-  max-width: 44rem;
+  margin: 1.2rem auto 1.4rem;
+  max-width: var(--measure);
+}
+
+/* screenshots — the AI transcripts and program outputs from the paper */
+.shot {
+  margin: 1.5rem auto 1.8rem;
+  max-width: 100%;
+}
+.shot-frame {
+  /* hug the screenshot so narrower captures are never upscaled and blurred */
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.8rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.shot-bar::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--sign);
+  flex: none;
+}
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+.shot img + img { border-top: 1px solid var(--rule); }
+.shot figcaption {
+  margin: 0.55rem auto 0;
+  max-width: var(--measure, 47rem);
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* click-to-zoom overlay for the screenshots */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  background: rgba(24, 22, 18, 0.88);
+  cursor: zoom-out;
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+.lightbox-hint {
+  position: absolute;
+  bottom: 0.9rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b8ad9a;
 }
 
 /* tables */
@@ -304,6 +422,10 @@ tbody tr td:first-child {
   color: var(--ink-soft);
   margin: 0.5rem 0 1.4rem;
   max-width: 46rem;
+}
+.essay p.table-caption {
+  margin: 0.5rem auto 1.4rem;
+  max-width: var(--measure);
 }
 
 /* ---------- implementation pages ---------- */

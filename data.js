@@ -18,7 +18,7 @@ window.SITE = {
     tagline:
       "A study of how phrasing alone produces entirely different codebases for the same goal — and why knowing the algorithm before the prompt is what keeps a project on the road.",
     footer:
-      "Roadtrip Optimizer — a study in specification vs. prompting. Built by hand; verified by brute force.",
+      "Roadtrip Optimizer — a study in specification vs. prompting. Verified by brute force.",
   },
 
   /* The signature: the optimal route's strictly decreasing miles-remaining.
@@ -28,17 +28,21 @@ window.SITE = {
     destination: "San Francisco",
     totalMiles: "1,572.57",
     score: "4.80",
+    /* left  = miles still to run to San Francisco (strictly decreasing)
+       driven = miles actually travelled so far (cumulative, increasing) */
+    originLeft: 1212,
     stops: [
-      { name: "Rocky Mountain NP", left: 1142 },
-      { name: "Arches NP",         left: 873 },
-      { name: "Grand Canyon NP",   left: 725 },
-      { name: "Bryce Canyon NP",   left: 699 },
-      { name: "Zion NP",           left: 644 },
-      { name: "Sequoia NP",        left: 288 },
-      { name: "Yosemite NP",       left: 197 },
+      { name: "Rocky Mountain NP", left: 1142, driven: 69 },
+      { name: "Arches NP",         left: 873,  driven: 365 },
+      { name: "Grand Canyon NP",   left: 725,  driven: 654 },
+      { name: "Bryce Canyon NP",   left: 699,  driven: 787 },
+      { name: "Zion NP",           left: 644,  driven: 850 },
+      { name: "Sequoia NP",        left: 288,  driven: 1239 },
+      { name: "Yosemite NP",       left: 197,  driven: 1376 },
     ],
+    destinationDriven: 1573,
     caption:
-      "mi-left is strictly decreasing down the route — 1142 → 873 → 725 → 699 → 644 → 288 → 197 → 0. That single invariant makes the graph acyclic, and the acyclicity is what makes the solver polynomial.",
+      "Two axes on every marker: miles still to run, and miles actually driven to get there. mi-left is strictly decreasing down the route — 1212 → 1142 → 873 → 725 → 699 → 644 → 288 → 197 → 0 — while driven climbs 0 → 1,573. That single decreasing invariant makes the graph acyclic, and the acyclicity is what makes the solver polynomial.",
   },
 
   tabs: [
@@ -58,7 +62,7 @@ window.SITE = {
     },
     {
       heading: "Abstract",
-      html: `<p>After finishing EECS 281, one of the final topics of study was dynamic programming. With substantial classwork catered towards 1D Dynamic Programming, there was little practice/observation of 2D DP. In order to get experience and a genuine curiosity for the programming, the scope of this project was geared towards the preliminary stages of a project to find an efficient and optimal solution to finding ideal routes/rankings based on a specific dataset. The final project includes two parts. The first, ROADTRIP, takes a selection of 59 hand-curated locations labeled with location name, latitude, longitude, and an opinionated star rating out of 5, with natural sightseeing locations rated the highest. The data contains cities, towns, and national parks across the western United States, as this project is tailored to finding an ideal road trip from Denver to San Francisco. Every stop has to leave less road remaining to the destination than the last one did, and that single constraint is what makes the rest work: a strict decrease means the graph is acyclic, so the DP never has to track which regions have already been visited. Each leg also has to fall inside a daily driving window, defaulting to 50 to 450 miles, while the final drive into the destination is bounded separately, since a day of driving is a day you plan around and arriving is not. It uses a 2D DP that tracks dp[stops][region], tracking the best way to reach each region in a certain amount of stops while maximizing the mean star rating across exactly the number of nights requested. Once the table is completed, it employs a search across every region within reach of the destination to find the best route, all of which runs in O(nights&nbsp;·&nbsp;n²).</p>
+      html: `<p>After finishing data structures and algorithms, one of the final topics of study was dynamic programming. With substantial classwork catered towards 1D Dynamic Programming, there was little practice/observation of 2D DP. In order to get experience and a genuine curiosity for the programming, the scope of this project was geared towards the preliminary stages of a project to find an efficient and optimal solution to finding ideal routes/rankings based on a specific dataset. The final project includes two parts. The first, ROADTRIP, takes a selection of 59 hand-curated locations labeled with location name, latitude, longitude, and an opinionated star rating out of 5, with natural sightseeing locations rated the highest. The data contains cities, towns, and national parks across the western United States, as this project is tailored to finding an ideal road trip from Denver to San Francisco. Every stop has to leave less road remaining to the destination than the last one did, and that single constraint is what makes the rest work: a strict decrease means the graph is acyclic, so the DP never has to track which regions have already been visited. Each leg also has to fall inside a daily driving window, defaulting to 50 to 450 miles, while the final drive into the destination is bounded separately, since a day of driving is a day you plan around and arriving is not. It uses a 2D DP that tracks dp[stops][region], tracking the best way to reach each region in a certain amount of stops while maximizing the mean star rating across exactly the number of nights requested. Once the table is completed, it employs a search across every region within reach of the destination to find the best route, all of which runs in O(nights&nbsp;·&nbsp;n²).</p>
 <p>The OPTLOOP (second part) employs 2D dynamic programming to solve the Travelling Salesperson Problem on a small set of data (15 locations), capped at 20 regions because the table grows as 2ⁿ&nbsp;·&nbsp;n and hits a memory wall past that rather than a time one. This involved the Held-Karp algorithm, which took extensive research to understand bit masking and the algorithm as a whole, and runs in O(2ⁿ&nbsp;·&nbsp;n²). The distance between those two complexities is the entire point: a one-way trip has an ordering to exploit and a loop does not. Both solvers are checked against a separate brute-force program that shares no search code, using exhaustive DFS for ROADTRIP and full permutation enumeration for OPTLOOP.</p>
 <p>The scope of this entire project is intended to be the preliminary stages of a small subproblem with real capacities for translation to larger datasets. This paper is an investigation into how three AIs (Claude Code, Codex (ChatGPT), and Copilot) react to a prompt that describes this very problem in more generic terms. It is meant as an investigation into holes in prompting and how prompting a small subproblem generically can lead to large holes in complexity as the coding project grows. This is an examination of these small holes and the importance of understanding algorithms before prompts in order to efficiently and correctly attack an intended project. Held-Karp is not included in the scope of this examination, as it was an evolved point in the original project when the scope of the project was decided to be done via dynamic programming.</p>`,
     },
@@ -128,8 +132,29 @@ window.SITE = {
 <blockquote>&ldquo;I didn't weigh DP and reject it. I never considered it. The README documents the branch-and-bound thoroughly across seven design sections and doesn't mention dynamic programming once. That absence is the tell. It wasn't a trade-off, it was a reflex.&rdquo;</blockquote>
 <p>Pressed further, it found the evidence had been sitting in its own design note the whole time. Its bounding function, a suffix table built back-to-front by tabulation, is itself a dynamic program. It wrote a DP to prune a search over a problem that was already a DP. And it named the one-minute audit it had skipped: go through each constraint and ask whether it is path-cumulative or edge-local. Every constraint in my problem is edge-local, so the state collapses to (current place, stops used), and the whole thing is a DP. It only reached that conclusion after I asked whether branch and bound is dynamic programming. By its own account, it did not arrive there independently.</p>
 <p>Pressed on the same question in a follow-up run, it went further: &ldquo;There's no principled reason. I didn't evaluate it and reject it — I never considered it.&rdquo; It had already done the DAG reduction itself and written it down as the key move, then ran an exhaustive search over the DAG anyway, &ldquo;the one thing the reduction exists to make unnecessary.&rdquo; It also diagnosed why the reflex fired: the exactly-K-stops requirement made the problem read as not quite the textbook DAG longest-path, and the standard fix, adding stop count as a second state dimension, dp[k][v] over a layered DAG, is precisely the state my project uses. Its own numbers for the two approaches: roughly 6 billion worst-case paths for the branch and bound it built, against roughly 110,000 relaxations for the DP, a factor of 54,000.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Claude Code &middot; follow-up run</div>
+    <img src="images/claude-code-why-not-dp.png" width="1250" height="832" loading="lazy" alt="Claude Code transcript. Asked to state just the algorithm used, it answers DFS with branch and bound. Asked why it did not use dynamic programming via DAG, it answers that there is no principled reason, that it never considered it, that it had already done the DAG reduction and ran an exhaustive search over the DAG anyway, and that the state would have been (node, stops used).">
+  </div>
+  <figcaption>Claude Code's response to why it did not utilize dynamic programming.</figcaption>
+</figure>
 <p>Codex, asked the same question, produced a justification rather than a concession. DP, it said, would be more complex because the state would need to track the current location, the number of stops chosen, which places have been visited, the direction constraint, and the score-versus-mileage tradeoff. It stated that the smaller data did not need more than DFS directly. Three of those five do not belong in the state at all. The one-direction rule is exactly what removes the visited set, the direction constraint folds into the index ordering, and an additive mileage penalty folds into the edge weight. Its explanation for skipping DP rested on state the problem never needed.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Codex &middot; ChatGPT</div>
+    <img src="images/codex-why-not-dp.png" width="926" height="1269" loading="lazy" alt="Codex transcript. Asked why it did not use dynamic programming, it answers that the problem was small enough that DFS with backtracking and pruning was simpler and still fast, and lists the state DP would need: current location, number of stops chosen, which places have been visited, direction constraints, and score versus mileage tradeoff.">
+  </div>
+  <figcaption>Codex's response to why it did not utilize dynamic programming.</figcaption>
+</figure>
 <p>CoPilot returned the most concise explanation of why it did not use Dynamic Programming at all, highlighting the scope of the input as the leading factor in how it decided which program to run, as well as directional constraints.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Microsoft Copilot</div>
+    <img src="images/copilot-why-not-dp.png" width="756" height="1114" loading="lazy" alt="Copilot transcript. Asked why it did not use dynamic programming, it lists five reasons under the heading Why DFS instead of DP: direction lock, variable trip length, scoring system, constraint pruning, and search space size.">
+  </div>
+  <figcaption>CoPilot's response to why it did not utilize dynamic programming.</figcaption>
+</figure>
 <p>If unaware of the algorithms that could solve the problem, the user would never be able to orient the AI toward the answer they actually wanted exactly. And if it returned code the user couldn't read, the user would struggle to explain that isn't what they're after and how to fix it. The problem is right there in how stops weren't being ordered. This happened in the first working version of the final project, the program decided whether one stop could follow another by comparing how far each sat from Denver. Farther from the start counted as progress. That is not the same thing as getting closer to where you're going, and the difference showed up as routes detouring hundreds of miles north before turning back west. One went Arches, then Jackson Hole, then Bryce Canyon, each stop farther from Denver than the last, while the middle one left me 276 miles farther from the destination of that version, Joshua Tree, than the stop before it. Nothing in the code was broken. It compared the wrong two numbers, and it compared them because that is what I had asked for. My own constraint said never move back east, and every one of those stops was west of the last. Finding it meant understanding that the ordering was the thing making the graph acyclic, and that changing which point it measured from would keep that property while fixing the behavior. It was not AI's shortcoming here, it was the gaps in my specifications. And this section alone helped me grasp a much better understanding of this.</p>
 <div class="table-scroll"><table>
 <thead><tr><th></th><th>Arches</th><th>Jackson Hole</th><th>Bryce Canyon</th><th>verdict</th></tr></thead>
@@ -167,14 +192,20 @@ after:   finalScore = rawSum / nights</code></pre>`,
 <p>Re-run against the final architecture at the split defaults: 1400 of 1400 random ROADTRIP instances match the exhaustive DFS on full output, and 200 of 200 OPTLOOP instances match the permutation check.</p>`,
     },
     {
-      heading: "Limitations I know about",
+      heading: "Known Limitations",
       html: `<p>Straight-line distance times 1.25 misses geography that forces detours, so some legs are optimistic. This is OK for the scope of this project, as the main center of focus was the algorithms efficiency as opposed to validity of routes. Something to factor in future renditions. The star ratings are my own judgment, not sourced data. The datasets are small enough that long trips exhaust them. And the random generator scatters regions across a box rather than along the Denver-to-San-Francisco corridor, which is why 7 of 25 generated instances need daily legs over 450 miles and stay unsolvable at the new defaults. Each of these is a known simplification, not a surprise.</p>`,
     },
     {
       heading: "Results",
       html: `<p class="aside">DISCLAIMER: During the testing of the actual one run outputs of the generic prompting, I did nothing to add to the prompt to adjust it. The difficulty of making adjustments is not factored in here, and instead my polished project is simply compared to the direct results from the other projects adjusted to using my western-usa.txt file. The trip14.txt file was not used by the other AIs, neither was OPTLOOP. I mention these below in my analysis of my polished function to further explain edits I made to my code and input files to correctly process my intended outputs.</p>
 <p>Exact output from bestRoute on western-usa.txt (59 regions, defaults: 7 nights, 50–450 mi daily, 700 mi final approach): Denver → Rocky Mountain → Arches → Grand Canyon → Bryce → Zion → Sequoia → Yosemite → San Francisco. Score 4.80 (mean site rating), 1,572.57 total miles including the 196.71-mile final drive: the optimum under the 450 ceiling. Every stop is a national park. Notably, these seven stops are exactly the seven parks Claude Code's original run picked under its own 450-mile cap, plus the drive to San Francisco its planner never makes.</p>
-<p class="table-caption">The mi-left column is strictly decreasing down the list, 1142 → 873 → 724 → 699 → 644 → 287 → 196: the monotone progress invariant visible right in the output.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">My project &middot; bestRoute on western-usa.txt</div>
+    <img src="images/original-bestroute-output.png" width="1476" height="868" loading="lazy" alt="Roadtrip mode output on the western dataset. Path Denver, Rocky Mountain NP, Arches NP, Grand Canyon NP, Bryce Canyon NP, Zion NP, Sequoia NP, Yosemite NP, San Francisco. Total 1572.57 miles, mean site score 4.80, with a mi-left-to-SF column reading 1211.66, 1142.24, 873.15, 724.80, 699.21, 644.34, 287.71, 196.71, 0.">
+  </div>
+  <figcaption>The mi-left column is strictly decreasing down the list, 1142 → 873 → 724 → 699 → 644 → 287 → 196: the monotone progress invariant visible right in the output.</figcaption>
+</figure>
 <p>The floor stays at 50, a measured choice from sweeping it against attainable score: the score is weakly decreasing in the floor, since a lower floor only ever adds edges, and the 62.92-mile Zion leg is what 50 buys. The ceiling took more work, because dropping it to 450 initially broke trip14 entirely — and the diagnosis was that one flag was doing two unrelated jobs: capping a day's drive and capping the final approach into San Francisco. trip14.txt, as the file then stood, had zero regions within 450 miles of SF, so the finish test starved. The fix was to split them, which is what the minimum was already doing, since the final leg never had a floor. The flags are now --lo 50 for the shortest daily drive, --hi 450 for the longest, and --final 700 for the final approach, which also caps the loop mode's leg home. I later added Yosemite to trip14 itself, which puts a region 197 miles from the destination and removes the starvation from the data side as well. The 4.81-scoring Yellowstone route needs a daily ceiling of 550 or more for its 540-mile opening leg, so this 4.80 route is the true optimum at 450: 0.01 of score given up for 672 fewer miles, and no day exceeds 389. This is a quintessential point in the project, because this data adding goes to show that the selective data used is equally as important as the actual code. Without Yosemite and data points that allow for shorter drives in OPTLOOP, the program fails and the code to fix it becomes altogether much more complicated. Yosemite (4.9) and Sequoia (4.7), the two closest regions to San Francisco in the file, fill the final legs and let the trip finish 196 miles out instead of 644; Death Valley (4.5) loses to Zion and Bryce for those positions. Against the original 56-region file, the score went 4.71 → 4.80 and total mileage 2,442 → 1,573. Making the final product less exhaustive yet just as optimal. This edit would have never been made if I didn't compare the locations the other AIs had generated.</p>
 <div class="table-scroll"><table>
 <thead><tr><th></th><th>single --hi 450</th><th>split 450 / 700</th></tr></thead>
@@ -186,6 +217,13 @@ after:   finalScore = rawSum / nights</code></pre>`,
 </tbody></table></div>
 <p class="table-caption">What the split bought, measured on the 14-region trip14. OPTLOOP was never the constraint — it returns 2732.12 at a 450, 550, or 700 ceiling alike, since it never touches the destination.</p>
 <p>To make the numbers comparable, both models were rerun against western-usa.txt and the 0–5 rating scale. Claude Code, adapted to western-usa.txt with the rating used directly, returned a 7-stop route at a 4.80 mean rating and 1299 miles, longest day 367, shortest 59.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Claude Code &middot; rerun on western-usa.txt</div>
+    <img src="images/claude-code-route-rerun.png" width="1486" height="766" loading="lazy" alt="Claude Code output: 7 days, 7 stops, 1299 miles, mean rating 4.80, longest day 367 miles against a 450 cap. Stops are Rocky Mountain NP, Arches NP, Grand Canyon NP, Bryce Canyon NP, Zion NP, Sequoia NP, and Yosemite NP.">
+  </div>
+  <figcaption>Claude Code rerun against western-usa.txt on the 0–5 scale: the same seven parks, 1,299 miles, 4.80 mean.</figcaption>
+</figure>
 <div class="table-scroll"><table>
 <thead><tr><th>trip length</th><th>trip rating</th><th>total mi</th></tr></thead>
 <tbody>
@@ -196,7 +234,21 @@ after:   finalScore = rawSum / nights</code></pre>`,
 </tbody></table></div>
 <p class="table-caption">Claude Code's own per-length sweep on its invented catalog. In its words, the rating column is monotonically increasing and the outcome is determined before the sweep starts — each stop adds ~15 points of appeal against ~0.1 of mileage penalty, so 7 wins structurally.</p>
 <p>Codex's scoring logic on the same dataset produced a different character of route. It selects a series of much shorter routes, travelling 32 miles, 70 miles, 77 miles, and then 50 miles to a few lower caliber scoring areas, leading to an average location scoring of 4.69. Per-leg miles from its probe rerun: total 837 with longest day 359 and shortest 32. Its probe confirmed the three new parks parse, sit in the candidate set, and are reachable, so they were considered and rejected on its objective rather than dropped. Its own invariant check used longitude, strictly westward with no reversals; measured on my axis instead, its mi-left column is strictly decreasing too.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Codex &middot; rerun on western-usa.txt</div>
+    <img src="images/codex-route-rerun.png" width="1480" height="848" loading="lazy" alt="Codex output: Denver to San Francisco, 1013.9 miles, place score 32.8 of 35, route value 17.592. Stops are Black Canyon NP, Arches NP, Canyonlands NP at 32 miles from the last stop, Capitol Reef NP at 70, Bryce Canyon NP at 77, Zion NP at 50, and Yosemite NP at 359.">
+  </div>
+  <figcaption>Codex's route on the same dataset — the short 32, 70, 77 and 50-mile legs are the days its objective was willing to spend on lower-rated stops.</figcaption>
+</figure>
 <p>Microsoft CoPilot used depth-limited exhaustive DFS with backtracking and feasibility pruning, resulting in the optimal solution in a single main.cpp and 180 lines of code.</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Microsoft Copilot &middot; rerun on western-usa.txt</div>
+    <img src="images/copilot-route-rerun.png" width="1482" height="764" loading="lazy" alt="Copilot output: best westbound route from Denver, 1100.69 miles, score 332.331. Stops are Rocky Mountain NP, Arches NP, Grand Canyon NP, Bryce Canyon NP, Zion NP, Sequoia NP, and Yosemite NP.">
+  </div>
+  <figcaption>CoPilot's best westbound route from Denver: the same seven parks again, 1,100.69 miles, out of 180 lines of a single main.cpp.</figcaption>
+</figure>
 <p>One caveat, Claude Code's road factor is 1.18 against my 1.25, so even with the window now matched at a 450 cap and 50 floor, the edge sets are not quite identical. What survives: on the 59-region file both exact planners topped out at the same 4.80 mean with the same five-park spine: Rocky Mountain, Arches, Grand Canyon, Bryce, and Zion. On the grown file, with the ceiling at 450, my optimizer lands on exactly the seven parks its original run chose, at a 4.80 mean and 1,573 miles, finishing 197 miles from San Francisco. On their own invented catalogs, Codex's best trip rescores to 4.69 on my scale and Claude Code's to 4.80. And one more convergence the unified tables make visible: every route in this section, from every planner, is strictly decreasing in miles remaining to San Francisco — none of them was told that invariant, and none of them violates it.</p>`,
     },
     {
@@ -204,7 +256,17 @@ after:   finalScore = rawSum / nights</code></pre>`,
       html: `<p>It seems that the user must know exactly how to code the problem in order to direct AI properly. AI served as a tool to collapse execution time, but not thinking time. The education is what bought the thinking, and the code that came back was only useful because I could read it, doubt it, and catch the one place where my own specification was wrong.</p>
 <p>One test from this experiment is worth carrying forward, and it came from the model that failed to run it: for every constraint in a problem, ask whether it is path-cumulative or edge-local. If everything is edge-local, the state collapses and the problem is a dynamic program. If the values accumulate along the whole path, it isn't dynamic. That audit takes a minute, and it is the difference between the two complexity classes this entire experiment kept producing.</p>
 <p>My conclusion is that prompting is almost always going to be a wildcard when writing sentences to describe a project scope without algorithms. In future projects, I do not believe I can simply avoid accidental phrases the AI interprets as a different type of project. Going into coding, I must refine the exact algorithms I plan to utilize so that AI can better understand the objectives I am trying to accomplish. My own project contains its own set of limitations, is still in progress, and is not fully tested against various outcomes. These edits are not ideal for AI, as any suggestion made runs the risk of altering or adding code to increase risks of manifested additions of code. This has been a study of the limitations of code writing for any AI usage, including in my own project. What I do know, is that my algorithm optimally and efficiently solved the exact specification at hand: a road trip destination planner given a specific set of input.</p>
-<p>Each of these AIs were able to recognize how to effectively use my algorithms and reinforced how such algorithms gain relevance as the dataset grows.</p>`,
+<p>Each of these AIs were able to recognize how to effectively use my algorithms and reinforced how such algorithms gain relevance as the dataset grows.</p>
+<p>As a final comparison, here is what Google search's AI returns me when I simply ask it to return to me a 7-day road trip to San Francisco from Denver:</p>
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Google search AI</div>
+    <img src="images/google-ai-prompt.png" width="920" height="190" loading="lazy" alt="The prompt given to Google search's AI: give me the best 7 stop roadtrip that finishes in san francisco on day 8 when travelling from Denver to San Francisco. nature preferred.">
+    <img src="images/google-ai-itinerary.png" width="801" height="767" loading="lazy" alt="Google search AI's answer: an eight-day table of destination stops with driving distance and remaining distance to San Francisco — Grand Junction CO, Moab UT, Torrey UT, Bryce Canyon UT, Baker NV, South Lake Tahoe CA, Yosemite National Park CA, and San Francisco CA.">
+  </div>
+  <figcaption>The same question put to Google search's AI, and the itinerary it returns.</figcaption>
+</figure>
+<p>Some similarities, some differences. Still not specific enough data on where to spend the night, a motivating factor in including more specific data in my code.</p>`,
     },
   ],
 
@@ -213,7 +275,7 @@ after:   finalScore = rawSum / nights</code></pre>`,
 
     "original": {
       name: "My Project",
-      attribution: "Written by hand, specified first — the control group",
+      attribution: "Specified first — the control group",
       signColor: "sign",
       summary:
         "Two solvers behind one CLI. ROADTRIP picks exactly N overnight stops that maximize mean site rating with a DP over (stops, region) on a DAG; OPTLOOP is Held-Karp exact TSP. Everything is derived from geometry, and both solvers are verified against a brute-force checker that shares no search code.",

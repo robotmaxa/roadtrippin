@@ -14,6 +14,7 @@ index.html      page shell (rarely needs editing)
 styles.css      design system (rarely needs editing)
 app.js          rendering logic (rarely needs editing)
 data.js         ALL WORDS AND NUMBERS LIVE HERE — edit this
+images/         the paper's screenshots (AI transcripts, program output)
 code/*.js       embedded source code shown in the code browsers (generated)
 source/         the real .cpp/.hpp/.txt files, one folder per implementation
 tools/embed.py  regenerates code/*.js from source/
@@ -25,6 +26,22 @@ tools/embed.py  regenerates code/*.js from source/
 commented object: the essay is `SITE.blog`, each tab is
 `SITE.implementations`, the comparison tables are `SITE.comparison`, and the
 hero numbers are `SITE.rail`. Save, refresh, done.
+
+**Add a screenshot** → drop the PNG in `images/`, then paste this block into
+the relevant `html:` string in `data.js`, at the point in the essay where it
+belongs. `width`/`height` are the image's real pixel size — they reserve the
+space so the page doesn't jump while it loads. Clicking any screenshot opens
+it full size.
+
+```html
+<figure class="shot">
+  <div class="shot-frame">
+    <div class="shot-bar">Who / what this is</div>
+    <img src="images/FILE.png" width="1476" height="868" loading="lazy" alt="What the screenshot shows, for screen readers.">
+  </div>
+  <figcaption>The caption printed under it.</figcaption>
+</figure>
+```
 
 **Change the code shown in a code browser** → replace the file under
 `source/<implementation>/`, then run:
