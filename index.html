@@ -8,7 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <!-- ?v= is a cache buster: browsers cache data.js/styles.css hard, so an
+       edit can look like it never deployed. Bump this number on every push
+       and every visitor gets the new files immediately. -->
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 
@@ -38,11 +41,11 @@
     <div class="wrap"><p id="site-footer-text"></p></div>
   </footer>
 
-  <script src="data.js"></script>
-  <script src="code/original.js"></script>
-  <script src="code/claude-code.js"></script>
-  <script src="code/codex.js"></script>
-  <script src="code/copilot.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=2"></script>
+  <script src="code/original.js?v=2"></script>
+  <script src="code/claude-code.js?v=2"></script>
+  <script src="code/codex.js?v=2"></script>
+  <script src="code/copilot.js?v=2"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>
