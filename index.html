@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Making AI Write My Code — Roadtrip Optimizer, four ways</title>
+  <meta name="description" content="One project, one generic prompt, three AIs, four codebases. A study of specification versus prompting, with every codebase browsable.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="masthead">
+    <div class="wrap">
+      <p class="eyebrow" id="site-eyebrow"></p>
+      <h1 id="site-title"></h1>
+      <p class="masthead-tagline" id="site-tagline"></p>
+    </div>
+
+    <!-- Signature: the mile rail — the monotone progress invariant, drawn -->
+    <div class="rail-band">
+      <div class="wrap">
+        <div class="rail" id="mile-rail" aria-label="Optimal route with strictly decreasing miles remaining"></div>
+        <p class="rail-caption" id="rail-caption"></p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabbar" aria-label="Sections">
+    <div class="wrap tabbar-inner" id="tabbar"></div>
+  </nav>
+
+  <main class="wrap" id="main"></main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p id="site-footer-text"></p></div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="code/original.js"></script>
+  <script src="code/claude-code.js"></script>
+  <script src="code/codex.js"></script>
+  <script src="code/copilot.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
