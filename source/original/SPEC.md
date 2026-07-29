@@ -365,25 +365,33 @@ Checker, verification only: ROADTRIP DFS O(n^N); OPTLOOP O(n!).
 ## 12. Acceptance criteria
 
 1. All four files compile clean under `-Wall -Wextra -Werror -pedantic -O2`.
-2. Solver output matches the checker **in full**, not scores alone, across
-   several hundred generated instances at every trip length from 1 to `NIGHTS`.
-3. OPTLOOP matches permutation search on every instance within the brute-force
-   cap.
-4. Both shipped fixtures produce a route on defaults.
-5. Every §3.1 and §8 error path produces its exact message and `exit(1)`.
-6. A region with zero campsites does not crash any mode.
+2. Solver output MUST match the checker's **score** on every generated instance
+   at every trip length from 1 to `NIGHTS`. Full output MUST match except where
+   two routes score identically (see below).
+3. OPTLOOP MUST match permutation search on every instance within the
+   brute-force cap.
+4. Both shipped fixtures MUST produce a route on defaults.
+5. Every §3.1 and §8 error path MUST produce its exact message and `exit(1)`.
+6. A region with zero campsites MUST NOT crash any mode.
+7. Two test runs started concurrently MUST NOT interfere. Captured output goes
+   to a per-process scratch file; a fixed name lets one run read another's
+   results, which presents as a fixture failing on data it never saw.
 
-Current measured results:
+Current measured results, from `make test`:
 
-| Check | Result |
-|---|---|
-| ROADTRIP vs exhaustive DFS, nights 1–7 | 1400 / 1400 |
-| OPTLOOP vs permutation search | 400 / 400 |
+| Check | Instances | Result |
+|---|---|---|
+| ROADTRIP vs exhaustive DFS, 200 seeds × nights 1–7 | 1400 | 1400 / 1400 on score, 1399 on full output |
+| OPTLOOP vs permutation search, 200 seeds × 9 regions | 200 | 200 / 200 |
 
-Rare route-level disagreements at *identical* scores are expected and MUST NOT
-be treated as defects. When two regions' scores differ by about 1 ULP, the two
-programs can resolve the resulting tie at different stages. Both routes are
-optimal.
+871 of the 1400 ROADTRIP cases produce a route; the remaining 529 are agreed
+rejections, which is a correctness result but not a route.
+
+Route-level disagreement at an *identical* score is expected and MUST NOT be
+treated as a defect — one case in the current 1400 (seed 110, 6 nights). When
+two regions' scores differ by about 1 ULP, the DP resolves the tie while
+relaxing interior states and the checker resolves it on completed routes.
+Neither ordering is more correct. A differing score is always a real failure.
 
 ## 13. Known gaps
 
