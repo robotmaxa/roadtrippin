@@ -407,14 +407,12 @@ after:   finalScore = rawSum / nights</code></pre>`,
     main: {
       cols: ["", "My Project", "Claude Code", "Codex", "Copilot"],
       rows: [
-        ["Search structure", "DP over (night, region)", "DFS + branch and bound", "DFS + backtracking", "depth-limited DFS"],
+        ["Search structure", "DP over (night, region)", "DFS + branch and bound", "DFS + backtracking", "DFS + backtracking"],
         ["Worst-case cost", "O(nights · n²)", "~6 billion paths", "O(n² + nᵏ)", "O(k · nᵏ)"],
-        ["Exact optimum", "yes — verified by brute force", "yes", "no", "yes"],
-        ["Lines of code", "528 solver · 1,460 total", "709 + tests", "~315 + ~180 tests", "~180"],
+        ["Exact optimum", "yes", "yes", "no", "yes"],
         ["Road factor", "1.25 (specified)", "1.18 (self-chosen)", "1.00 (great-circle)", "1.00 (great-circle)"],
-        ["Min daily mileage", "50 mi, by measured sweep", "50 mi, unprompted", "none", "none"],
-        ["Own tests", "brute-force diff harness + fixtures", "847 assertions", "33–43 assertions", "none"],
-        ["Considered DP?", "chose it deliberately", "\u201cI never considered it\u201d", "justified skipping it", "no; justified skipping it due to data selection"],
+        ["Min daily mileage", "50 mi, by measured sweep (originally 100)", "50 mi, unprompted", "none", "none"],
+        ["Considered DP?", "chose it deliberately", "\u201cI never considered it\u201d", "no; justified skipping it", "no; justified skipping it due to data selection"],
       ],
     },
     results: {
