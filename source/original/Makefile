@@ -28,4 +28,4 @@ test: $(BINS) tests
 	./tests
 
 clean:
-	rm -f $(BINS) tests
+	rm -f $(BINS) tests tests-*.out

@@ -4,6 +4,7 @@
 // three groups: the small fixture files, every rejection path, and a
 // differential sweep of the DP against the brute-force checker. the sweep is
 // the real correctness argument; the rest guards against regressions.
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
@@ -18,6 +19,11 @@ using namespace std;
 // that path rather than only the cases that agree exactly.
 const int SWEEP_SEEDS = 200;
 
+// where command output is captured. the process id is in the name so that two
+// runs started at once cannot read each other's results, which looks exactly
+// like a fixture failing on someone else's data.
+const string SCRATCH = "tests-" + to_string(getpid()) + ".out";
+
 int passed = 0;
 int failed = 0;
 
@@ -25,10 +31,10 @@ int failed = 0;
 // exited cleanly. stdout and stderr are merged on purpose: the error messages
 // are part of the interface being tested.
 static bool run(const string& cmd, vector<string>& lines){
-    int status = system((cmd + " > tests.out 2>&1").c_str());
+    int status = system((cmd + " > " + SCRATCH + " 2>&1").c_str());
 
     lines.clear();
-    ifstream in("tests.out");
+    ifstream in(SCRATCH);
     string line;
 
     while (getline(in, line)) {
@@ -116,7 +122,8 @@ static void sweep(){
                 ++disagree;
                 if (disagree <= 3) {
                     cout << "  FAIL  seed " << seed << ", nights " << nights
-                         << ": " << dp[0] << " vs " << brute[0] << "\n";
+                         << ": " << (dp.empty() ? "(nothing)" : dp[0])
+                         << " vs " << (brute.empty() ? "(nothing)" : brute[0]) << "\n";
                 }
             }
         }
@@ -245,7 +252,7 @@ int main(){
 
     sweep();
 
-    remove("tests.out");
+    remove(SCRATCH.c_str());
 
     cout << "\n" << passed << " passed, " << failed << " failed\n";
     return failed == 0 ? 0 : 1;

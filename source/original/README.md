@@ -241,16 +241,20 @@ Current results, comparing full output rather than scores alone:
 
 | Check | Instances | Result |
 |---|---|---|
-| ROADTRIP vs exhaustive DFS, nights 1–7, 200 seeds | 1400 | **1400 / 1400** |
-| OPTLOOP vs permutation search, 100 seeds × 6–9 regions | 400 | **400 / 400** |
+| ROADTRIP vs exhaustive DFS, 200 seeds × nights 1–7 | 1400 | **1400 / 1400** on score, 1399 on full output |
+| OPTLOOP vs permutation search, 200 seeds × 9 regions | 200 | **200 / 200** |
 
-Agreement includes agreed *rejections*: 764 of the 1400 ROADTRIP cases are
-instances both programs declare infeasible, which is as much a correctness
-result as a matching route.
+Two details behind those numbers, because both are easy to overstate:
 
-Rare route-level disagreements at *identical* scores are expected and are not
-bugs. When two regions' scores differ by about 1 ULP, the two programs can break
-the resulting tie at different stages. Both routes are optimal.
+- **529 of the 1400** ROADTRIP cases are instances both programs declare
+  infeasible. An agreed rejection is as much a correctness result as a matching
+  route, but it is not a route, so it is worth counting separately: 871 produced
+  one.
+- **One case out of 1400** matches on score while choosing a different, equally
+  optimal route (seed 110 at 6 nights). When two regions' scores differ by about
+  1 ULP, the DP settles the tie while relaxing interior states and the checker
+  settles it on completed routes. Neither ordering is more correct, so the score
+  is what must match. A differing *score* is always a hard failure.
 
 ## Limitations
 
