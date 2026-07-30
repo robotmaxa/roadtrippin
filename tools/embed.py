@@ -18,7 +18,7 @@ MANIFEST = {
         "Makefile", "SPEC.md", "README.md",
         "western-usa.txt", "trip14.txt",
         "linear.txt", "choice.txt", "multisite.txt", "siteless.txt",
-        "tie.txt", "unreachable.txt", "badheader.txt",
+        "tie.txt", "unreachable.txt", "badheader.txt", "trailing.txt",
     ],
     "claude-code": [
         "Planner.cpp", "Planner.hpp", "Place.cpp", "Place.hpp",

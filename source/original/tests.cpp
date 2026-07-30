@@ -232,6 +232,82 @@ int main(){
     expectError("empty input", "--mode ROADTRIP < /dev/null",
                 "Error: need an origin, a destination and at least 1 region");
 
+    cout << "\nboundary cases\n";
+
+    // the 7-night optimum needs the 388.94-mile Zion-to-Sequoia leg. a ceiling
+    // of 388 severs exactly that edge and nothing else worth having, so the
+    // score drops and the route reshapes. 389 restores it. pins the fact that
+    // the window acts on the graph, not on finished routes.
+    expectRoute("hi 388: severs the Sequoia leg",
+                "--mode ROADTRIP --hi 388 < western-usa.txt",
+                "4.77", "0 26 44 45 48 56 58 59");
+    expectRoute("hi 389: one mile back buys the optimum",
+                "--mode ROADTRIP --hi 389 < western-usa.txt",
+                "4.80", "0 4 26 44 45 48 58 59");
+
+    // Yosemite sits 196.71 miles from the destination and is the nearest
+    // region. a final approach of 196 strands every route; 197 is enough.
+    expectError("final 196: no region can finish",
+                "--mode ROADTRIP --final 196 < western-usa.txt",
+                "Cannot construct route");
+    expectRoute("final 197: the closing leg just fits",
+                "--mode ROADTRIP --final 197 < western-usa.txt",
+                "4.80", "0 4 26 44 45 48 58 59");
+
+    // raising the floor past the 62.92-mile Bryce-to-Zion leg forces a
+    // different corridor through Monument Valley
+    expectRoute("lo 63: floor removes the short Zion hop",
+                "--mode ROADTRIP --lo 63 < western-usa.txt",
+                "4.77", "0 4 26 28 44 48 58 59");
+
+    // one stop means two legs. at the 450 default the most road two legs can
+    // cover is 450 + 700, still short of the 1,184-mile trip, so refusal is
+    // geometry rather than a bug. a 563 ceiling admits Denver-to-Bryce and
+    // the 699-mile finish fits under --final 700.
+    expectError("one night: impossible under the default ceiling",
+                "--mode ROADTRIP --nights 1 < western-usa.txt",
+                "Cannot construct route");
+    expectRoute("one night: possible once the ceiling allows it",
+                "--mode ROADTRIP --nights 1 --hi 563 < western-usa.txt",
+                "4.80", "0 45");
+
+    // the Held-Karp table would need 2^59 entries; the guard must fire before
+    // any allocation is attempted
+    expectError("OPTLOOP refuses 59 regions",
+                "--mode OPTLOOP < western-usa.txt",
+                "Error: too many regions for OPTLOOP");
+
+    expectError("final must be positive", "--mode ROADTRIP --final 0 < western-usa.txt",
+                "Error: invalid window bounds");
+    expectError("lo must be positive", "--mode ROADTRIP --lo 0 < western-usa.txt",
+                "Error: invalid window bounds");
+
+    // 365 passes the range check and must then fail the region-count check,
+    // in that order, with the message that names the real limit
+    expectError("nights 365 vs 59 regions",
+                "--mode ROADTRIP --nights 365 < western-usa.txt",
+                "Error: --nights is 365 but only 59 regions are available");
+
+    // the parser reads exactly the declared regions and stops, so trailing
+    // annotations in a data file are ignored rather than fatal. western-usa.txt
+    // carries one; this asserts the tolerance directly.
+    expectRoute("trailing comment in the data is ignored",
+                "--mode ROADTRIP --nights 4 < trailing.txt",
+                "4.30", "0 1 2 3 4");
+
+    // gen must be deterministic on a seed or the whole sweep proves nothing
+    {
+        vector<string> a, b;
+        run("./gen --seed 42 --regions 14", a);
+        run("./gen --seed 42 --regions 14", b);
+        if (!a.empty() && a == b) {
+            pass("gen: same seed, identical instance");
+        } else {
+            fail("gen: same seed, identical instance", "identical output",
+                 a == b ? "(empty)" : "outputs differ");
+        }
+    }
+
     cout << "\nreal datasets\n";
 
     expectRoute("western-usa: 7 nights on defaults", "--mode ROADTRIP < western-usa.txt",
