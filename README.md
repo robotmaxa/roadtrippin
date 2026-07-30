@@ -100,3 +100,13 @@ embedded — no server needed). If you prefer a local server:
 python3 -m http.server 8000
 # then open http://localhost:8000
 ```
+
+## AI assistance and credits
+
+This website and the project it presents were built with AI assistance, and
+that usage is the study's subject matter. Claude (Anthropic's Claude Code)
+was the primary contributor to the website build and to the hand-specified
+project's code, working from the author's specifications and reviews. The
+study presented here cites and analyzes codebases produced from generic
+prompts by Codex (ChatGPT), Claude Code, and Microsoft Copilot; those
+codebases are shown unmodified in the code browsers.

@@ -1,5 +1,8 @@
 # Roadtrip Optimizer
 
+[![tests](https://github.com/robotmaxa/Dynamic-Programming-road-trip-optimization-DP-TSP/actions/workflows/test.yml/badge.svg)](https://github.com/robotmaxa/Dynamic-Programming-road-trip-optimization-DP-TSP/actions/workflows/test.yml)
+
+
 Plans a multi-night camping road trip from an origin to a fixed destination.
 You supply candidate regions with coordinates and campsites; it returns which
 regions to overnight in.
@@ -279,3 +282,15 @@ Two details behind those numbers, because both are easy to overstate:
    strict decrease in `mileMark`, so a region at the origin's exact coordinates
    can never be entered. `western-usa.txt` contains such a region (`Denver,CO`),
    making it 59 regions of which 58 are usable.
+
+## AI assistance and credits
+
+This project was built with AI assistance, and that usage is part of the
+project's subject matter. Claude (Anthropic's Claude Code) was the primary
+contributor to the solver, checker, test harness, and the companion website,
+working from my specifications, code reviews, and measured parameter sweeps.
+The companion study also analyzes codebases produced from generic prompts by
+Codex (ChatGPT), Claude Code, and Microsoft Copilot; those codebases are
+preserved unmodified. Every algorithmic decision, constraint, and expected
+test value was specified and verified by me, and every number in these docs
+is reproducible with `make test`.
