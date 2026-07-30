@@ -73,6 +73,11 @@
     return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   }
 
+  (function dataRail() {
+    const pre = document.getElementById("datafile-pre");
+    if (pre && S.dataFile) pre.textContent = S.dataFile;
+  })();
+
   (function renderRail() {
     const rail = $("#mile-rail");
 
@@ -178,7 +183,18 @@
 
     panel.append(h2("Real output"));
     if (impl.outputNote) panel.append(el("p", { class: "output-note" }, impl.outputNote));
-    impl.outputs.forEach((o) => panel.append(terminal(o.title, o.text)));
+    impl.outputs.forEach((o) => {
+      if (o.html) {
+        const block = el("div", { class: "terminal" });
+        block.append(el("div", { class: "terminal-bar" }, el("span", null, o.title)));
+        const body = el("div", { class: "route-html" });
+        body.innerHTML = o.html;
+        block.append(body);
+        panel.append(block);
+      } else {
+        panel.append(terminal(o.title, o.text));
+      }
+    });
 
     panel.append(h2("Browse the code"));
     panel.append(codeBrowser(id));
@@ -246,6 +262,12 @@
     panel.append(h2(S.comparison.scaling.title));
     panel.append(dataTable(S.comparison.scaling.cols, S.comparison.scaling.rows));
     panel.append(el("p", { class: "compare-note" }, S.comparison.scaling.note));
+
+    if (S.comparison.prompt2) {
+      panel.append(h2(S.comparison.prompt2.title));
+      panel.append(dataTable(S.comparison.prompt2.cols, S.comparison.prompt2.rows, { highlightCol: 1 }));
+      panel.append(el("p", { class: "compare-note" }, S.comparison.prompt2.note));
+    }
   }
 
   /* ---------- screenshot zoom ----------

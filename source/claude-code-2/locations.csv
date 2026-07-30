@@ -1,0 +1,164 @@
+name,state,lat,lon,category,rating
+Yellowstone National Park,WY,44.60,-110.50,NATIONAL_PARK,5.0
+Grand Teton National Park,WY,43.79,-110.68,NATIONAL_PARK,4.8
+Glacier National Park,MT,48.70,-113.80,NATIONAL_PARK,4.9
+Rocky Mountain National Park,CO,40.34,-105.68,NATIONAL_PARK,4.7
+Zion National Park,UT,37.30,-113.05,NATIONAL_PARK,4.9
+Bryce Canyon National Park,UT,37.59,-112.19,NATIONAL_PARK,4.8
+Capitol Reef National Park,UT,38.37,-111.26,NATIONAL_PARK,4.5
+Arches National Park,UT,38.73,-109.59,NATIONAL_PARK,4.8
+Canyonlands National Park,UT,38.20,-109.93,NATIONAL_PARK,4.6
+Grand Canyon National Park,AZ,36.06,-112.14,NATIONAL_PARK,5.0
+Petrified Forest National Park,AZ,34.91,-109.81,NATIONAL_PARK,4.0
+Saguaro National Park,AZ,32.25,-110.50,NATIONAL_PARK,4.2
+Mesa Verde National Park,CO,37.18,-108.49,NATIONAL_PARK,4.5
+Great Sand Dunes National Park,CO,37.73,-105.51,NATIONAL_PARK,4.4
+Black Canyon of the Gunnison National Park,CO,38.58,-107.72,NATIONAL_PARK,4.3
+Carlsbad Caverns National Park,NM,32.17,-104.44,NATIONAL_PARK,4.4
+White Sands National Park,NM,32.78,-106.17,NATIONAL_PARK,4.5
+Guadalupe Mountains National Park,TX,31.92,-104.87,NATIONAL_PARK,4.1
+Big Bend National Park,TX,29.25,-103.25,NATIONAL_PARK,4.5
+Death Valley National Park,CA,36.50,-117.08,NATIONAL_PARK,4.6
+Joshua Tree National Park,CA,33.87,-115.90,NATIONAL_PARK,4.6
+Sequoia National Park,CA,36.49,-118.56,NATIONAL_PARK,4.7
+Kings Canyon National Park,CA,36.80,-118.55,NATIONAL_PARK,4.5
+Yosemite National Park,CA,37.87,-119.54,NATIONAL_PARK,5.0
+Redwood National Park,CA,41.21,-124.00,NATIONAL_PARK,4.6
+Lassen Volcanic National Park,CA,40.49,-121.51,NATIONAL_PARK,4.2
+Crater Lake National Park,OR,42.94,-122.14,NATIONAL_PARK,4.8
+Mount Rainier National Park,WA,46.85,-121.76,NATIONAL_PARK,4.7
+Olympic National Park,WA,47.80,-123.60,NATIONAL_PARK,4.7
+North Cascades National Park,WA,48.70,-121.20,NATIONAL_PARK,4.4
+Badlands National Park,SD,43.75,-102.50,NATIONAL_PARK,4.4
+Wind Cave National Park,SD,43.57,-103.48,NATIONAL_PARK,4.0
+Theodore Roosevelt National Park,ND,46.97,-103.45,NATIONAL_PARK,4.1
+Voyageurs National Park,MN,48.50,-92.88,NATIONAL_PARK,4.2
+Isle Royale National Park,MI,48.10,-88.55,NATIONAL_PARK,4.1
+Mammoth Cave National Park,KY,37.19,-86.10,NATIONAL_PARK,4.3
+Great Smoky Mountains National Park,TN,35.68,-83.53,NATIONAL_PARK,4.8
+Shenandoah National Park,VA,38.53,-78.35,NATIONAL_PARK,4.4
+New River Gorge National Park,WV,37.90,-81.07,NATIONAL_PARK,4.2
+Congaree National Park,SC,33.78,-80.78,NATIONAL_PARK,3.9
+Everglades National Park,FL,25.29,-80.90,NATIONAL_PARK,4.3
+Biscayne National Park,FL,25.49,-80.21,NATIONAL_PARK,3.9
+Hot Springs National Park,AR,34.51,-93.06,NATIONAL_PARK,3.8
+Acadia National Park,ME,44.35,-68.21,NATIONAL_PARK,4.6
+Cuyahoga Valley National Park,OH,41.24,-81.55,NATIONAL_PARK,4.0
+Indiana Dunes National Park,IN,41.65,-87.05,NATIONAL_PARK,3.9
+Mount Rushmore,SD,43.88,-103.46,NATURAL_WONDER,4.0
+Niagara Falls,NY,43.08,-79.07,NATURAL_WONDER,4.7
+Antelope Canyon,AZ,36.86,-111.37,NATURAL_WONDER,4.7
+Horseshoe Bend,AZ,36.88,-111.51,NATURAL_WONDER,4.5
+Monument Valley,UT,36.98,-110.10,NATURAL_WONDER,4.7
+Devils Tower,WY,44.59,-104.71,NATURAL_WONDER,4.4
+Multnomah Falls,OR,45.58,-122.12,NATURAL_WONDER,4.4
+Columbia River Gorge,OR,45.70,-121.90,NATURAL_WONDER,4.3
+Lake Tahoe,CA,39.09,-120.03,NATURAL_WONDER,4.6
+Havasu Falls,AZ,36.26,-112.70,NATURAL_WONDER,4.6
+Meteor Crater,AZ,35.03,-111.02,NATURAL_WONDER,3.8
+Painted Desert,AZ,35.70,-109.78,NATURAL_WONDER,4.0
+Goblin Valley State Park,UT,38.56,-110.71,NATURAL_WONDER,4.3
+Boston,MA,42.36,-71.06,CITY,4.0
+Providence,RI,41.82,-71.41,CITY,3.3
+Hartford,CT,41.76,-72.69,CITY,3.0
+New York,NY,40.71,-74.01,CITY,4.3
+Philadelphia,PA,39.95,-75.16,CITY,3.8
+Baltimore,MD,39.29,-76.61,CITY,3.4
+Washington,DC,38.91,-77.04,CITY,4.2
+Richmond,VA,37.54,-77.44,CITY,3.3
+Roanoke,VA,37.27,-79.94,CITY,3.1
+Raleigh,NC,35.78,-78.64,CITY,3.4
+Charlotte,NC,35.23,-80.84,CITY,3.4
+Asheville,NC,35.60,-82.55,CITY,3.9
+Columbia,SC,34.00,-81.03,CITY,3.0
+Charleston,SC,32.78,-79.93,CITY,4.0
+Savannah,GA,32.08,-81.09,CITY,3.9
+Atlanta,GA,33.75,-84.39,CITY,3.7
+Chattanooga,TN,35.05,-85.31,CITY,3.5
+Knoxville,TN,35.96,-83.92,CITY,3.2
+Nashville,TN,36.16,-86.78,CITY,3.9
+Memphis,TN,35.15,-90.05,CITY,3.7
+Louisville,KY,38.25,-85.76,CITY,3.3
+Cincinnati,OH,39.10,-84.51,CITY,3.2
+Columbus,OH,39.96,-83.00,CITY,3.0
+Cleveland,OH,41.50,-81.69,CITY,3.1
+Pittsburgh,PA,40.44,-79.99,CITY,3.4
+Buffalo,NY,42.89,-78.88,CITY,3.0
+Albany,NY,42.65,-73.75,CITY,2.8
+Portland,ME,43.66,-70.26,CITY,3.6
+Detroit,MI,42.33,-83.05,CITY,3.1
+Chicago,IL,41.88,-87.63,CITY,4.2
+Indianapolis,IN,39.77,-86.16,CITY,3.0
+Milwaukee,WI,43.04,-87.91,CITY,3.2
+Minneapolis,MN,44.98,-93.27,CITY,3.7
+Fargo,ND,46.88,-96.79,CITY,2.6
+Bismarck,ND,46.81,-100.78,CITY,2.5
+Billings,MT,45.78,-108.50,CITY,2.8
+Bozeman,MT,45.68,-111.04,CITY,3.4
+Missoula,MT,46.87,-113.99,CITY,3.2
+Great Falls,MT,47.50,-111.30,CITY,2.6
+Spokane,WA,47.66,-117.43,CITY,3.0
+Seattle,WA,47.61,-122.33,CITY,4.2
+Portland,OR,45.52,-122.68,CITY,4.0
+Boise,ID,43.62,-116.20,CITY,3.1
+Idaho Falls,ID,43.49,-112.03,CITY,2.6
+Salt Lake City,UT,40.76,-111.89,CITY,3.3
+Provo,UT,40.23,-111.66,CITY,2.9
+Cedar City,UT,37.68,-113.06,CITY,2.8
+St George,UT,37.10,-113.58,CITY,3.0
+Rock Springs,WY,41.59,-109.20,CITY,2.3
+Cheyenne,WY,41.14,-104.82,CITY,2.7
+Casper,WY,42.85,-106.32,CITY,2.5
+Denver,CO,39.74,-104.99,CITY,3.9
+Colorado Springs,CO,38.83,-104.82,CITY,3.3
+Pueblo,CO,38.27,-104.61,CITY,2.6
+Grand Junction,CO,39.06,-108.55,CITY,2.8
+Santa Fe,NM,35.69,-105.94,CITY,4.0
+Albuquerque,NM,35.08,-106.65,CITY,3.3
+El Paso,TX,31.76,-106.49,CITY,2.9
+Fort Stockton,TX,30.90,-102.87,CITY,2.1
+San Antonio,TX,29.42,-98.49,CITY,3.6
+Austin,TX,30.27,-97.74,CITY,3.9
+Houston,TX,29.76,-95.37,CITY,3.3
+Dallas,TX,32.78,-96.80,CITY,3.4
+Abilene,TX,32.45,-99.73,CITY,2.3
+Lubbock,TX,33.58,-101.86,CITY,2.3
+Amarillo,TX,35.19,-101.83,CITY,2.5
+Oklahoma City,OK,35.47,-97.52,CITY,3.0
+Tulsa,OK,36.15,-95.99,CITY,2.9
+Wichita,KS,37.69,-97.34,CITY,2.7
+Salina,KS,38.84,-97.61,CITY,2.1
+Kansas City,MO,39.10,-94.58,CITY,3.3
+St Louis,MO,38.63,-90.20,CITY,3.4
+Des Moines,IA,41.60,-93.61,CITY,2.8
+Omaha,NE,41.26,-95.94,CITY,2.8
+Sioux Falls,SD,43.55,-96.70,CITY,2.5
+Rapid City,SD,44.08,-103.23,CITY,2.9
+Little Rock,AR,34.75,-92.29,CITY,2.8
+Jackson,MS,32.30,-90.18,CITY,2.6
+Shreveport,LA,32.53,-93.75,CITY,2.5
+Baton Rouge,LA,30.45,-91.15,CITY,2.8
+New Orleans,LA,29.95,-90.07,CITY,4.3
+Mobile,AL,30.69,-88.04,CITY,2.8
+Birmingham,AL,33.52,-86.80,CITY,2.9
+Pensacola,FL,30.42,-87.22,CITY,3.2
+Tallahassee,FL,30.44,-84.28,CITY,2.6
+Jacksonville,FL,30.33,-81.66,CITY,2.9
+Orlando,FL,28.54,-81.38,CITY,3.4
+Tampa,FL,27.95,-82.46,CITY,3.3
+Miami,FL,25.76,-80.19,CITY,4.0
+Phoenix,AZ,33.45,-112.07,CITY,3.0
+Tucson,AZ,32.22,-110.97,CITY,2.9
+Flagstaff,AZ,35.20,-111.65,CITY,3.2
+Kingman,AZ,35.19,-114.05,CITY,2.2
+Palm Springs,CA,33.83,-116.55,CITY,3.4
+Los Angeles,CA,34.05,-118.24,CITY,4.0
+San Diego,CA,32.72,-117.16,CITY,4.0
+Las Vegas,NV,36.17,-115.14,CITY,3.6
+Reno,NV,39.53,-119.81,CITY,2.7
+Elko,NV,40.83,-115.76,CITY,2.0
+Barstow,CA,34.90,-117.02,CITY,2.0
+Bakersfield,CA,35.37,-119.02,CITY,2.4
+Fresno,CA,36.75,-119.77,CITY,2.6
+Sacramento,CA,38.58,-121.49,CITY,3.0
+San Francisco,CA,37.77,-122.42,CITY,4.4

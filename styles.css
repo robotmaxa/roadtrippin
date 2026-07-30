@@ -600,3 +600,36 @@ tbody tr td:first-child {
   font-size: 0.75rem;
   color: var(--ink-soft);
 }
+
+
+/* ---- dataset sidebar ---- */
+.layout { display: flex; gap: 28px; align-items: flex-start; }
+.layout > main { flex: 1 1 auto; min-width: 0; }
+.data-rail { flex: 0 0 290px; position: sticky; top: 14px; }
+.data-rail details {
+  border: 1px solid var(--rule, #d8d2c6); border-radius: 6px;
+  background: var(--card, #fffdf8); padding: 10px 12px;
+}
+.data-rail summary {
+  cursor: pointer; font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  font-size: 14px;
+}
+.data-rail .data-note {
+  font-size: 12.5px; font-style: italic; opacity: .75; margin: 8px 0;
+  line-height: 1.45;
+}
+.data-rail pre {
+  max-height: 60vh; overflow: auto; font-size: 11px; line-height: 1.5;
+  margin: 0; padding: 8px; background: rgba(0,0,0,.04); border-radius: 4px;
+  white-space: pre;
+}
+@media (max-width: 1080px) {
+  .layout { flex-direction: column; }
+  .data-rail { position: static; flex: none; width: 100%; }
+}
+.route-html { padding: 10px 14px; overflow-x: auto; }
+.route-html table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.route-html th { text-align: left; font-family: "Barlow Condensed", sans-serif; letter-spacing: .05em; text-transform: uppercase; font-size: 12.5px; padding: 5px 10px; border-bottom: 2px solid var(--rule, #d8d2c6); }
+.route-html td { padding: 5px 10px; border-bottom: 1px solid var(--rule, #e4ded2); }
+.essay h3 { font-family: "Barlow Condensed", sans-serif; font-size: 21px; letter-spacing: .03em; margin: 1.6em 0 .5em; }

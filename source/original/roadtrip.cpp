@@ -16,9 +16,7 @@ const double UNSET = -1.0;
 size_t NIGHTS = 7;
 
 // sanity ceiling on --nights. the DP allocates (NIGHTS + 1) * regions states
-// and runs in O(NIGHTS * regions^2), so an absurd value would other burn
-// memory and time only to conclude the trip is impossible. the real limit is
-// tighter and depends on the input; see the check in main.
+// and runs in O(NIGHTS * regions^2)
 const int MAX_NIGHTS = 365;
 
 // held-karp allocates 2^n * n entries, so the mode is capped well below
@@ -34,14 +32,10 @@ const size_t MAX_LOOP_REGIONS = 20;
 // minimum has always been waived there for exactly this reason; the ceiling
 // is waived to the same degree.
 //
-// the floor is set by route quality: lowering it only ever adds edges, so
-// attainable score is weakly decreasing in WINDOW_LO. on western-usa.txt 50
-// tops out at 4.81; 100 costs 0.02 and 150 costs 0.10.
-// the daily ceiling is the knee of the mileage curve: 450 scores 4.80 over
-// 1573 mi, while 500 buys the last 0.01 for 595 extra miles.
+// lo is based on productive driving days and hi is based on a typical long drive day.
 // the final ceiling is set by the data: a trip can only end at a region
 // within reach of the destination, and the worst input on hand has its
-// nearest region 637 mi out.
+// nearest region 637 mi out (just a parameter for current data).
 double WINDOW_LO = 50.0;
 double WINDOW_HI = 450.0;
 double WINDOW_FINAL = 700.0;

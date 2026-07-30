@@ -119,7 +119,3 @@ YosemiteNP 37.8651 -119.5383 4.9
 SequoiaNP 36.4864 -118.5658 4.7
 36.5054 -117.0794 1
 DeathValleyNP 36.5054 -117.0794 4.5
-
-# NOTE: The numbers in the middle of this file (the count on each region
-# header line) are campgrounds. They are irrelevant to the current project
-# but will be used in a later phase.

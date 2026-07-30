@@ -11,7 +11,7 @@
   <!-- ?v= is a cache buster: browsers cache data.js/styles.css hard, so an
        edit can look like it never deployed. Bump this number on every push
        and every visitor gets the new files immediately. -->
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -35,17 +35,30 @@
     <div class="wrap tabbar-inner" id="tabbar"></div>
   </nav>
 
-  <main class="wrap" id="main"></main>
+  <div class="wrap layout">
+    <main id="main"></main>
+    <aside class="data-rail" aria-label="Dataset">
+      <details>
+        <summary>western-usa.txt &mdash; the dataset</summary>
+        <p class="data-note">The numbers in the middle (the count on each region header line)
+          are campgrounds &mdash; irrelevant to the current project but will be used in a later phase.</p>
+        <pre id="datafile-pre"></pre>
+      </details>
+    </aside>
+  </div>
 
   <footer class="site-footer">
     <div class="wrap"><p id="site-footer-text"></p></div>
   </footer>
 
-  <script src="data.js?v=4"></script>
-  <script src="code/original.js?v=4"></script>
-  <script src="code/claude-code.js?v=4"></script>
-  <script src="code/codex.js?v=4"></script>
-  <script src="code/copilot.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="data.js?v=5"></script>
+  <script src="code/original.js?v=5"></script>
+  <script src="code/claude-code.js?v=5"></script>
+  <script src="code/codex.js?v=5"></script>
+  <script src="code/copilot.js?v=5"></script>
+  <script src="code/claude-code-2.js?v=5"></script>
+  <script src="code/codex-2.js?v=5"></script>
+  <script src="code/copilot-2.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

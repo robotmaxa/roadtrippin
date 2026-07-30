@@ -31,6 +31,16 @@ MANIFEST = {
     "copilot": [
         "main.cpp",
     ],
+    "claude-code-2": [
+        "main.cpp", "RouteOptimizer.hpp", "LocationDatabase.hpp",
+        "Location.hpp", "Geo.hpp", "locations.csv", "CMakeLists.txt", "README.md",
+    ],
+    "codex-2": [
+        "main.cpp", "CMakeLists.txt", "README.md", "road_trip_data.txt",
+    ],
+    "copilot-2": [
+        "main.cpp", "western-usa.txt",
+    ],
 }
 
 LANG = {
