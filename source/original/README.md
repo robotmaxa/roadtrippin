@@ -162,8 +162,16 @@ ordering to exploit, a tour does not.
 
 ### Choosing the window
 
-Measured on `western-usa.txt` at 7 nights, holding the other two flags at their
-defaults:
+The defaults were chosen practically, then checked against measurement.
+`--hi 450` is a standard single day of driving: 450 mi / 60 mph ≈ 7.5 hours.
+`--lo 50` is a floor that keeps every night earning real mileage rather than
+a token hop. `--final 700` is looser than both and deliberately separate,
+because a day of driving is a day you plan around — the final approach is
+just arriving, so it does not need to fit the same window as a day you have
+to live inside.
+
+Measured on `western-usa.txt` at 7 nights, holding the other two flags at
+their defaults, that practical choice holds up:
 
 | `--lo` | score | total mi |
 |---|---|---|
@@ -184,8 +192,9 @@ defaults:
   attainable score is weakly decreasing in `--lo`. It also trades against trip
   length, since every extra night needs another region at least `--lo` from the
   last.
-- **`--hi`** is the knee of the mileage curve. 450 scores 4.80 over 1573 miles;
-  500 buys the last 0.01 of score for 595 extra miles.
+- **`--hi`** sits at the knee of the mileage curve, but it is not a knee the
+  program can find on its own — see the first item in Limitations. 450 scores
+  4.80 over 1573 miles; 500 buys the last 0.01 of score for 595 extra miles.
 - **`--final`** is set by the data: a trip can only end at a region within
   `--final` of the destination. Both bundled datasets now reach within 197 miles
   (Yosemite), so 700 is loose on them — it is sized for inputs whose nearest
@@ -261,24 +270,41 @@ Two details behind those numbers, because both are easy to overstate:
 
 ## Limitations
 
-1. **`avgCampScore` is a placeholder.** It averages every site in a region though
+1. **`--hi` has no natural stopping point.** Score is monotone non-decreasing in
+   the daily ceiling — raising it only ever adds edges to the graph, it never
+   removes a better option — so the DP cannot discover an interior optimum on
+   its own. Moving `--hi` from 450 to 563 gains 0.01 of score for 672 additional
+   miles, and nothing in the program stops that trade from being taken
+   indefinitely; 450 is a chosen ceiling, not a derived one. Automating that
+   choice — a Pareto frontier over score and mileage, a parametric search for
+   the marginal-value threshold, a detour ratio bounding wasted miles against
+   progress, or a feasibility floor guaranteeing a route exists at all — was
+   explored but is out of scope here. It is the project's stated next phase.
+2. **The 1.25 road factor is a placeholder, not a measurement.** Straight-line
+   distance times 1.25 misses geography that forces real detours, so some legs
+   are optimistic. The constant stands in for actual road geometry; this
+   project's focus was algorithmic correctness, not route validity, so it was
+   left untuned rather than sourced.
+3. **`avgCampScore` is a placeholder.** It averages every site in a region though
    a trip uses only one, and beauty is the only signal in the input — seclusion,
    availability, fees and access are all absent. Replace the derivation wholesale
    when real campsite data arrives rather than tuning weights on top of it.
-2. **The checker shares the input path.** The *search* is independently verified;
+4. **Star ratings are the author's own judgment, not sourced data.** No API or
+   dataset backs them; every site was rated by hand.
+5. **The checker shares the input path.** The *search* is independently verified;
    parsing, haversine and scoring are not.
-3. **Total mileage is reported but never constrained.** A hard cap would require
+6. **Total mileage is reported but never constrained.** A hard cap would require
    `(stops, node, miles)` state, and miles is continuous — so either discretize
    and lose the exactness guarantee, or keep a Pareto frontier per state.
-4. **`Cannot construct route` carries no diagnostic.** It does not distinguish a
+7. **`Cannot construct route` carries no diagnostic.** It does not distinguish a
    window too narrow to chain regions from nothing reaching the destination.
-5. **`gen.cpp` scatters regions in a box** rather than along the corridor, so
+8. **`gen.cpp` scatters regions in a box** rather than along the corridor, so
    sparse instances are frequently infeasible at the defaults: at 7 nights,
    0/25 seeds solve with 8 regions, 2/25 with 12, 9/25 with 15, and 25/25 with
    20. Raising `--hi` to 700 lifts the 12-region case to 21/25. The generator is
    useful for verification, where agreed rejections are still evidence, but it
    is not a realistic corridor.
-6. **A region colocated with the origin is unreachable.** `validEdge` requires a
+9. **A region colocated with the origin is unreachable.** `validEdge` requires a
    strict decrease in `mileMark`, so a region at the origin's exact coordinates
    can never be entered. `western-usa.txt` contains such a region (`Denver,CO`),
    making it 59 regions of which 58 are usable.
