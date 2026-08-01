@@ -15,7 +15,7 @@ SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MANIFEST = {
     "original": [
         "roadtrip.cpp", "roadtrip.hpp", "checker.cpp", "gen.cpp", "tests.cpp",
-        "Makefile", "SPEC.md", "README.md",
+        "Makefile", "README.md",
         "western-usa.txt", "trip14.txt",
         "linear.txt", "choice.txt", "multisite.txt", "siteless.txt",
         "tie.txt", "unreachable.txt", "badheader.txt", "trailing.txt",
